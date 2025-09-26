@@ -12,6 +12,7 @@ URL:                https://github.com/imputnet/helium
 Source0:            https://github.com/imputnet/helium-linux/releases/download/0.4.12.1/helium-0.4.12.1-x86_64_linux.tar.xz
 Source1:            %{full_name}.desktop
 Source2:            %{full_name}.sh
+Source3:            product_logo_256.png
 
 BuildRequires:      tar
 BuildRequires:      xz
@@ -66,13 +67,14 @@ cp -r * %{buildroot}/opt/
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{full_name}.desktop
 install -D -m 0755 %{SOURCE2} %{buildroot}%{_bindir}/%{full_name}
 
-# Install icons - look for product logo in the extracted files
-ICON_SOURCE=""
-if [ -f %{buildroot}/opt/%{full_name}/product_logo_256.png ]; then
-    ICON_SOURCE="%{buildroot}/opt/%{full_name}/product_logo_256.png"
-else
-    # Find any suitable logo file
-    ICON_SOURCE=$(find %{buildroot}/opt/%{full_name}/ -name "*logo*.png" -type f | head -1)
+# Install icons – prefer the packaged logo PNG, fallback to discovered one
+ICON_SOURCE="%{SOURCE3}"
+if [ ! -f "$ICON_SOURCE" ]; then
+    if [ -f %{buildroot}/opt/%{full_name}/product_logo_256.png ]; then
+        ICON_SOURCE="%{buildroot}/opt/%{full_name}/product_logo_256.png"
+    else
+        ICON_SOURCE=$(find %{buildroot}/opt/%{full_name}/ -name "*logo*.png" -type f | head -1)
+    fi
 fi
 
 if [ -n "$ICON_SOURCE" ] && [ -f "$ICON_SOURCE" ]; then
