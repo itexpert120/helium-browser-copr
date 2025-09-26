@@ -47,7 +47,7 @@ jobs:
 
           COMMIT_MSG="Update to upstream release $HELIUM_VER"
           CHANGELOG="$(sed -n '/%changelog/,$p' helium.spec | sed '1d')"
-          NEW_CHANGELOG=$(echo -e "* $(date +'%a %b %d %Y') ArchitektApx <architektapx@gehinors.ch> - $HELIUM_VER_SPEC\n- $COMMIT_MSG\n\n$CHANGELOG")
+          NEW_CHANGELOG=$(echo -e "* $(date +'%a %b %d %Y') Muhammad Zeeshan Ahmad <itexpert120@outlook.com> - $HELIUM_VER_SPEC\n- $COMMIT_MSG\n\n$CHANGELOG")
 
           # replace old changelog with new one
           sed -i '/%changelog/,$d' helium.spec

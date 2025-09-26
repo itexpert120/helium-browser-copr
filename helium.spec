@@ -11,7 +11,7 @@ License:            GPL-3.0
 URL:                https://github.com/imputnet/helium-linux
 Source0:            https://github.com/imputnet/helium-linux/releases/download/0.4.12.1/helium-0.4.12.1-x86_64_linux.tar.xz
 Source1:            %{full_name}.desktop
-Source3:            %{full_name}
+Source2:            %{full_name}
 
 ExclusiveArch:      x86_64
 
@@ -43,7 +43,7 @@ Bugs related to this package should be reported at this Git project:
 %__install -D -m 0644 %{SOURCE1} -t %{buildroot}%{_datadir}/applications
 
 
-%__install -D -m 0755 %{SOURCE3} -t %{buildroot}%{_bindir}
+%__install -D -m 0755 %{Source2} -t %{buildroot}%{_bindir}
 
 %__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{full_name}.png
 %__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{full_name}.png
@@ -66,3 +66,7 @@ gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor
 %{_datadir}/icons/hicolor/16x16/apps/%{full_name}.png
 %{_bindir}/%{full_name}
 /opt/%{full_name}
+
+%changelog
+* Thu Sep 26 2024 itexpert120 <itexpert120@example.com> - 0.4.12.1-1
+- Initial package for Helium Browser
