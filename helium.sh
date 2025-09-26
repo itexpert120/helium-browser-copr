@@ -14,5 +14,5 @@ export LD_LIBRARY_PATH="$HELIUM_DIR:$HELIUM_DIR/lib${LD_LIBRARY_PATH:+:${LD_LIBR
 # Custom version string for this release
 export CHROME_VERSION_EXTRA="helium"
 
-# Launch Helium using the chrome-wrapper from the installation directory
-exec "$HELIUM_DIR/chrome-wrapper" "$@"
+# Call chrome directly to avoid chrome-wrapper creating chromium-devel.desktop
+exec "$HELIUM_DIR/chrome" --class="helium" "$@"
