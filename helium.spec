@@ -65,11 +65,11 @@ install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{full_name}.
 install -D -m 0755 %{SOURCE2} %{buildroot}%{_bindir}/%{full_name}
 
 # Install icons at different sizes (using same source for now)
-cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{full_name}.png
-cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{full_name}.png
-cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{full_name}.png
-cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{full_name}.png
-cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{full_name}.png
+cp %{buildroot}/opt/%{full_name}/helium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{full_name}.png
+cp %{buildroot}/opt/%{full_name}/helium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{full_name}.png
+cp %{buildroot}/opt/%{full_name}/helium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{full_name}.png
+cp %{buildroot}/opt/%{full_name}/helium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{full_name}.png
+cp %{buildroot}/opt/%{full_name}/helium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{full_name}.png
 
 # Create symlinks for system dictionaries if they exist
 # Note: These are created at build time and packaged as symlinks
