@@ -58,7 +58,7 @@ install -d %{buildroot}%{_datadir}/applications
 install -d %{buildroot}%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
 
 # Install all browser files
-cp -r * %{buildroot}/opt/%{full_name}/
+cp -r helium/* %{buildroot}/opt/%{full_name}/
 
 # Install desktop file and wrapper script
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{full_name}.desktop
