@@ -2,7 +2,7 @@
 Version=1.0
 Name=Helium
 GenericName=Web Browser
-Comment=Access the Internet
+Comment=Private, fast, and honest web browser
 Exec=helium %U
 StartupNotify=true
 StartupWMClass=helium
