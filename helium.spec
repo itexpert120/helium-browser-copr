@@ -11,10 +11,9 @@ License:            GPL-3.0
 URL:                https://github.com/imputnet/helium-linux
 Source0:            https://github.com/imputnet/helium-linux/releases/download/0.4.12.1/helium-0.4.12.1-x86_64_linux.tar.xz
 Source1:            %{full_name}.desktop
-Source2:            policies.json
 Source3:            %{full_name}
 
-ExclusiveArch:      aarch64
+ExclusiveArch:      x86_64
 
 Recommends:         (plasma-browser-integration if plasma-workspace)
 Recommends:         (gnome-browser-connector if gnome-shell)
@@ -22,15 +21,14 @@ Recommends:         (gnome-browser-connector if gnome-shell)
 Requires(post):     gtk-update-icon-cache
 
 %description
-This is a package of the Zen web browser for aarch64. 
-Zen Browser is a fork of Firefox that aims to improve the browsing experience by focusing on a simple,
-performant, private and beautifully designed browser.
+This is a package of the Helium web browser for x86_64.
+Helium Browser is a Chromium-based browser that focuses on privacy and performance.
 
-Bugs related to Zen should be reported directly to the Zen Browser GitHub repo: 
-<https://github.com/zen-browser/desktop/issues>
+Bugs related to Helium should be reported directly to the Helium GitHub repo:
+<https://github.com/imputnet/helium/issues>
 
 Bugs related to this package should be reported at this Git project:
-<https://github.com/ArchitektApx/zen-browser-copr>
+<https://github.com/itexpert120/helium-browser-copr>
 
 %prep
 %setup -q -n %{application_name}
@@ -44,15 +42,14 @@ Bugs related to this package should be reported at this Git project:
 
 %__install -D -m 0644 %{SOURCE1} -t %{buildroot}%{_datadir}/applications
 
-%__install -D -m 0444 %{SOURCE2} -t %{buildroot}/opt/%{full_name}/distribution
 
 %__install -D -m 0755 %{SOURCE3} -t %{buildroot}%{_bindir}
 
-%__ln_s ../../../../../../opt/%{full_name}/browser/chrome/icons/default/default128.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{full_name}.png
-%__ln_s ../../../../../../opt/%{full_name}/browser/chrome/icons/default/default64.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{full_name}.png
-%__ln_s ../../../../../../opt/%{full_name}/browser/chrome/icons/default/default48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{full_name}.png
-%__ln_s ../../../../../../opt/%{full_name}/browser/chrome/icons/default/default32.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{full_name}.png
-%__ln_s ../../../../../../opt/%{full_name}/browser/chrome/icons/default/default16.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{full_name}.png
+%__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{full_name}.png
+%__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{full_name}.png
+%__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{full_name}.png
+%__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{full_name}.png
+%__cp %{buildroot}/opt/%{full_name}/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{full_name}.png
 
 if [ -d /usr/share/hunspell ]; then ln -Tsf /usr/share/hunspell %{buildroot}/opt/%{full_name}/dictionaries; fi
 if [ -d /usr/share/hyphen ]; then ln -Tsf /usr/share/hyphen %{buildroot}/opt/%{full_name}/hyphenation; fi
