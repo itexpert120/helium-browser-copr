@@ -1,0 +1,62 @@
+name: Sync Upstream Release
+on:
+  schedule:
+    - cron: "30 */12 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      needs_update: ${{ steps.check-version.outputs.needs_update }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: check for new upstream version
+        id: check-version
+        run: |
+          LOCAL_VER=$(grep -oP 'Version:\s*\K.*' helium.spec)
+          echo "Local version: $LOCAL_VER"
+
+          HELIUM_VER=$(curl -s https://api.github.com/repos/imputnet/helium-linux/releases/latest | jq -r '.tag_name')
+          HELIUM_VER_SPEC=$(echo $HELIUM_VER | sed 's@-@.@g')
+
+          NEEDS_UPDATE=false
+          if [ "$LOCAL_VER" != "$HELIUM_VER_SPEC" ]; then
+            NEEDS_UPDATE=true
+          fi
+
+          echo "HELIUM_VER=$HELIUM_VER" >> $GITHUB_ENV
+          echo "HELIUM_VER_SPEC=$HELIUM_VER_SPEC" >> $GITHUB_ENV
+          echo "needs_update=$NEEDS_UPDATE" >> $GITHUB_OUTPUT
+
+      - name: Setup git bot
+        if: steps.check-version.outputs.needs_update == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update helium.spec
+        if: steps.check-version.outputs.needs_update == 'true'
+        run: |
+          # update spec file version and url
+          sed -i '0,/Version:.*/s//Version:            '$HELIUM_VER_SPEC'/' helium.spec
+          sed -i 's@https://github.com/imputnet/helium-linux/releases/download/.*@https://github.com/imputnet/helium-linux/releases/download/'$HELIUM_VER'/helium-'$HELIUM_VER'-x86_64_linux.tar.xz@g' helium.spec
+
+          COMMIT_MSG="Update to upstream release $HELIUM_VER"
+          CHANGELOG="$(sed -n '/%changelog/,$p' helium.spec | sed '1d')"
+          NEW_CHANGELOG=$(echo -e "* $(date +'%a %b %d %Y') ArchitektApx <architektapx@gehinors.ch> - $HELIUM_VER_SPEC\n- $COMMIT_MSG\n\n$CHANGELOG")
+
+          # replace old changelog with new one
+          sed -i '/%changelog/,$d' helium.spec
+          echo -e "%changelog\n$NEW_CHANGELOG" >> helium.spec
+          git add helium.spec
+
+      - name: commit and tag new version
+        if: steps.check-version.outputs.needs_update == 'true'
+        id: commit-update
+        run: |
+          git commit -m "chore(helium-browser): Sync spec to $HELIUM_VER"
+          git push
