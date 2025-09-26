@@ -50,20 +50,24 @@ Bugs related to this package should be reported at this Git project:
 
 %prep
 %setup -q -c -n %{application_name}
+# Flatten the extracted top-level directory into ./helium so we end up with a
+# folder named "helium" containing the app files (not a nested versioned dir)
+if ls helium-*-x86_64_linux >/dev/null 2>&1; then
+    cp -a helium-*-x86_64_linux/. .
+    rm -rf helium-*-x86_64_linux
+fi
 
 %install
 rm -rf %{buildroot}
 
 # Create directory structure
-install -d %{buildroot}/opt/%{full_name}
+install -d %{buildroot}/opt
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_datadir}/applications
 install -d %{buildroot}%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
 
-# Install all browser files into /opt/helium
-# The release tarball extracts into a versioned directory like
-# helium-<version>-x86_64_linux; copy its contents into the target dir
-cp -r helium-*-x86_64_linux/* %{buildroot}/opt/%{full_name}/
+# Install the "helium" folder into /opt as /opt/helium
+cp -a %{application_name} %{buildroot}/opt/%{full_name}
 
 # Install desktop file and wrapper script
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{full_name}.desktop
