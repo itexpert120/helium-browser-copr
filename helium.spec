@@ -60,8 +60,10 @@ install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_datadir}/applications
 install -d %{buildroot}%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64,128x128}/apps
 
-# Install all browser files
-cp -r * %{buildroot}/opt/
+# Install all browser files into /opt/helium
+# The release tarball extracts into a versioned directory like
+# helium-<version>-x86_64_linux; copy its contents into the target dir
+cp -r helium-*-x86_64_linux/* %{buildroot}/opt/%{full_name}/
 
 # Install desktop file and wrapper script
 install -D -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/applications/%{full_name}.desktop
@@ -70,10 +72,10 @@ install -D -m 0755 %{SOURCE2} %{buildroot}%{_bindir}/%{full_name}
 # Install icons – prefer the packaged logo PNG, fallback to discovered one
 ICON_SOURCE="%{SOURCE3}"
 if [ ! -f "$ICON_SOURCE" ]; then
-    if [ -f %{buildroot}/opt/%{full_name}/product_logo_256.png ]; then
-        ICON_SOURCE="%{buildroot}/opt/%{full_name}/product_logo_256.png"
-    else
-        ICON_SOURCE=$(find %{buildroot}/opt/%{full_name}/ -name "*logo*.png" -type f | head -1)
+if [ -f %{buildroot}/opt/%{full_name}/product_logo_256.png ]; then
+    ICON_SOURCE="%{buildroot}/opt/%{full_name}/product_logo_256.png"
+else
+    ICON_SOURCE=$(find %{buildroot}/opt/%{full_name}/ -name "*logo*.png" -type f | head -1)
     fi
 fi
 
