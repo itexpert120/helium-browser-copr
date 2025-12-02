@@ -3,13 +3,13 @@
 %global             debug_package %{nil}
 
 Name:               helium
-Version:            0.6.7.1
+Version:            0.6.9.1
 Release:            1%{?dist}
 Summary:            Private, fast, and honest web browser
 
 License:            GPL-3.0-only
 URL:                https://github.com/imputnet/helium
-Source0:            https://github.com/imputnet/helium-linux/releases/download/0.6.7.1/helium-0.6.7.1-x86_64_linux.tar.xz
+Source0:            https://github.com/imputnet/helium-linux/releases/download/0.6.9.1/helium-0.6.9.1-x86_64_linux.tar.xz
 Source1:            %{full_name}.desktop
 Source2:            %{full_name}.sh
 Source3:            product_logo_256.png
@@ -112,6 +112,9 @@ gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor &>/dev/null || :
 /opt/%{full_name}/
 
 %changelog
+* Tue Dec 02 2025 Muhammad Zeeshan Ahmad <itexpert120@outlook.com> - 0.6.9.1
+- Update to upstream release 0.6.9.1
+
 * Sat Nov 22 2025 Muhammad Zeeshan Ahmad <itexpert120@outlook.com> - 0.6.7.1
 - Update to upstream release 0.6.7.1
 
